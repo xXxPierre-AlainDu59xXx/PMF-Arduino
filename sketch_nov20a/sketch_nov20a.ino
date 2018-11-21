@@ -10,10 +10,12 @@ double Thermistor(int RawADC) {
   double temp;
   Resistance = 10000.0/(1024.0/RawADC - 1);
   temp = log(Resistance); //Finds the log of Resistance
-  temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp); //Transforms temp to Kelvin
+  temp = 1 / (0.001125294 + (0.000234715 + (0.0000000856502 * temp * temp ))* temp); //Transforms temp to Kelvin
   temp = temp - 273.15; //Transforms temp to Celsius
   return temp;
  };
+
+
 
 void setup()
 {
@@ -22,6 +24,9 @@ void setup()
 
 void loop()
 {
-  Serial.println(int(Thermistor(analogRead(ThermistorPIN))));  // display Fahrenheit
+  Serial.print("Humidity: ");
+  Serial.println(analogRead(5)); //display humidity
+  Serial.print("Temperature: ");
+  Serial.println(int(Thermistor(analogRead(ThermistorPIN))));  // display Celsius
   delay(100);
 }
