@@ -8,7 +8,7 @@ int val = 0;           // variable to store the value read
 
 double Thermistor(int RawADC) {
   double temp;
-  Resistance = 10000.0/(1024.0/RawADC - 1);
+  Resistance = 10000.0/(1023.0/RawADC - 1);
   temp = log(Resistance); //Finds the log of Resistance
   temp = 1 / (0.001125294 + (0.000234715 + (0.0000000856502 * temp * temp ))* temp); //Transforms temp to Kelvin
   temp = temp - 273.15; //Transforms temp to Celsius
