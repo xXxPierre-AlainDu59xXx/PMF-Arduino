@@ -1,4 +1,5 @@
 #define ThermistorPIN 0// Analog Pin 0 
+#include <DHT.h>
 #include <math.h>
 
 long Resistance ; 
