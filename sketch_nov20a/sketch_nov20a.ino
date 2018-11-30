@@ -26,11 +26,11 @@ void loop()
   
   Serial.print("Temperature (carre blanc) : ");
   Serial.print(getUpTemp()); //display humidity
-  Serial.println("°C");
+  Serial.println(" C");
   
   Serial.print("Temperature: ");
   Serial.print(float(getBotTemp(analogRead(ThermistorPIN))));  // display Celsius
-  Serial.println("°C\n");
+  Serial.println(" C\n");
   
   delay(2000);
 }
