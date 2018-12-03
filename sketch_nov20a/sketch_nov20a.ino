@@ -20,17 +20,13 @@ void setup()
 
 void loop()
 {
-  Serial.print("Humidity (carre blanc) : ");
   Serial.print(getUpHumidity()); //display humidity
-  Serial.println("%");
+  Serial.print(";");
   
-  Serial.print("Temperature (carre blanc) : ");
   Serial.print(getUpTemp()); //display humidity
-  Serial.println(" C");
+  Serial.print(";");
   
-  Serial.print("Temperature: ");
-  Serial.print(float(getBotTemp(analogRead(ThermistorPIN))));  // display Celsius
-  Serial.println(" C\n");
+  Serial.println(float(getBotTemp(analogRead(ThermistorPIN))));  // display Celsius
   
   delay(2000);
 }
