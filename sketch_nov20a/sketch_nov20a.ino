@@ -36,7 +36,7 @@ void loop()
 
   /*------------------------*/
 
-  if((tempWhite>=15 || tempSonde>=15) && !fridgeIsOn)
+  if((tempWhite>=15) && !fridgeIsOn)
     getCold();
 
   else
