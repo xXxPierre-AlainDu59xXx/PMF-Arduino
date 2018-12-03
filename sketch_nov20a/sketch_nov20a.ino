@@ -2,9 +2,11 @@
 #include <DHT.h>
 #include <math.h>
 
+#define FRIDGE 5
 #define DHTPIN 2     // what pin we're connected to
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
 
+boolean fridgeIsOn = false;
 long Resistance ; 
 int analogPin = 0;     // potentiometer wiper (middle terminal) connected to analog pin 3
                        // outside leads to ground and +5V
@@ -20,15 +22,42 @@ void setup()
 
 void loop()
 {
-  Serial.print(getUpHumidity()); //display humidity
+  float humWhite = getUpHumidity();
+  float tempWhite = getUpTemp();
+  float tempSonde = float(getBotTemp(analogRead(ThermistorPIN)));
+  
+  Serial.print(humWhite); //display humidity
   Serial.print(";");
   
-  Serial.print(getUpTemp()); //display humidity
+  Serial.print(tempWhite); //display humidity
   Serial.print(";");
   
-  Serial.println(float(getBotTemp(analogRead(ThermistorPIN))));  // display Celsius
+  Serial.println(tempSonde);  // display Celsius
+
+  /*------------------------*/
+
+  if((tempWhite>=15 || tempSonde>=15) && !fridgeIsOn)
+    getCold();
+
+  else
+    if(fridgeIsOn)
+      stopCold();
+
+  /*------------------------*/
   
   delay(2000);
+}
+
+void getCold()
+{
+  digitalWrite(FRIDGE, HIGH);
+  fridgeIsOn = true;
+}
+
+void stopCold()
+{
+  digitalWrite(FRIDGE, LOW);
+  fridgeIsOn = false;
 }
 
 double getUpHumidity()
