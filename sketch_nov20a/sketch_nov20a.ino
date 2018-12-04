@@ -6,7 +6,6 @@
 #define DHTPIN 2     // what pin we're connected to
 #define DHTTYPE DHT22   // DHT 22  (AM2302)
 
-boolean fridgeIsOn = false;
 long Resistance ; 
 int analogPin = 0;     // potentiometer wiper (middle terminal) connected to analog pin 3
                        // outside leads to ground and +5V
@@ -22,9 +21,9 @@ void setup()
 
 void loop()
 {
-  float humWhite = getUpHumidity();
-  float tempWhite = getUpTemp();
-  float tempSonde = float(getBotTemp(analogRead(ThermistorPIN)));
+  float humWhite = getInHumidity();
+  float tempWhite = getInTemp();
+  float tempSonde = float(getOutTemp(analogRead(ThermistorPIN)));
   
   Serial.print(humWhite); //display humidity
   Serial.print(";");
@@ -36,31 +35,28 @@ void loop()
 
   /*------------------------*/
 
-  if((tempWhite>=15) && !fridgeIsOn)
+  if(tempWhite>=15)
     getCold();
 
   else
-    if(fridgeIsOn)
-      stopCold();
+    stopCold();
 
   /*------------------------*/
   
-  delay(2000);
+  delay(1500);
 }
 
 void getCold()
 {
   digitalWrite(FRIDGE, HIGH);
-  fridgeIsOn = true;
 }
 
 void stopCold()
 {
   digitalWrite(FRIDGE, LOW);
-  fridgeIsOn = false;
 }
 
-double getUpHumidity()
+double getInHumidity()
 {
   // Reading humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
@@ -73,7 +69,7 @@ double getUpHumidity()
   return humidity;
 }
 
-double getUpTemp()
+double getInTemp()
 {
   // Reading temperature takes about 250 milliseconds!
   // Read temperature as Celsius
@@ -85,7 +81,7 @@ double getUpTemp()
   return temperature;
 }
 
-double getBotTemp(int RawADC)
+double getOutTemp(int RawADC)
 {
   double temp;
   Resistance = 10000.0/(1023.0/RawADC - 1);
