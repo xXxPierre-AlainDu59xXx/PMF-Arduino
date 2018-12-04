@@ -35,16 +35,26 @@ void loop()
   Serial.println(tempSonde);  // display Celsius
 
   // send data only when you receive data:
-  if (Serial.available() > 0)
+  if (Serial.available())
   {
-    // read the incoming byte:
-    incomingByte = Serial.read();
-
-    if(incomingByte == 1)
-      getCold();
-
-    else
-      stopCold();
+    int ind=0;
+    char buff[0];
+    
+    while(Serial.available())
+    {
+      unsigned int c = Serial.read();
+      buff[ind] = c;
+      
+      if(ind++ > 1)
+        break;
+        
+    }
+    
+    getCold();
+  }
+  else
+  {
+     stopCold();
   }
   
   delay(1500);
