@@ -10,6 +10,7 @@ long Resistance ;
 int analogPin = 0;     // potentiometer wiper (middle terminal) connected to analog pin 3
                        // outside leads to ground and +5V
 int val = 0;           // variable to store the value read
+int incomingByte = 0;
 
 DHT dht(DHTPIN, DHTTYPE);
 
@@ -33,15 +34,18 @@ void loop()
   
   Serial.println(tempSonde);  // display Celsius
 
-  /*------------------------*/
+  // send data only when you receive data:
+  if (Serial.available() > 0)
+  {
+    // read the incoming byte:
+    incomingByte = Serial.read();
 
-  if(tempWhite>=15)
-    getCold();
+    if(incomingByte == 1)
+      getCold();
 
-  else
-    stopCold();
-
-  /*------------------------*/
+    else
+      stopCold();
+  }
   
   delay(1500);
 }
