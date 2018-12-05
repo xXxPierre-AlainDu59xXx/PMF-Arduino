@@ -18,6 +18,7 @@ void setup()
 {
   Serial.begin(9600);
   dht.begin();
+  pinMode(FRIDGE, OUTPUT);
 }
 
 void loop()
@@ -34,8 +35,13 @@ void loop()
   
   Serial.println(tempSonde);  // display Celsius
 
-  // send data only when you receive data:
-  if (Serial.available())
+  ReadJavaData();
+  delay(1500);
+}
+
+void ReadJavaData()
+{
+  if(Serial.available())
   {
     int ind=0;
     char buff[0];
@@ -47,17 +53,14 @@ void loop()
       
       if(ind++ > 1)
         break;
-        
     }
     
-    getCold();
-  }
-  else
-  {
-     stopCold();
-  }
-  
-  delay(1500);
+    getCold();     
+   }
+    else
+    {
+       stopCold();
+    }
 }
 
 void getCold()
